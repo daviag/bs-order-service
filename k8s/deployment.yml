@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-service
+  labels:
+    app: order-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order-service
+  template:
+    metadata:
+      labels:
+        app: order-service
+    spec:
+      containers:
+        - name: order-service
+          image: order-service
+          imagePullPolicy: IfNotPresent
+          lifecycle:
+            preStop:
+              exec:
+                # makes k8s wait for 5 seconds before sending the SIGTERM
+                command: [ "sh", "-c", "sleep 5" ]
+          ports:
+            - containerPort: 9002
+          env:
+            - name: BPL_JVM_THREAD_COUNT
+              value: "50"
+            - name: SPRING_R2DBC_URL
+              value: r2dbc:postgresql://bookshop-postgres/bookshopdb_order
+            - name: SPRING_FLYWAY_URI
+              value: jdbc:postgresql://bookshop-postgres/bookshopdb_order
+            - name: SPRING_CLOUD_CONFIG_URI
+              value: http://config-service
+            - name: BS_CATALOG_SERVICE_URI
+              value: http://catalog-service
