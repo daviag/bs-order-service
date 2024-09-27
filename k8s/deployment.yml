@@ -30,7 +30,7 @@ spec:
               value: "50"
             - name: SPRING_R2DBC_URL
               value: r2dbc:postgresql://bookshop-postgres/bookshopdb_order
-            - name: SPRING_FLYWAY_URI
+            - name: SPRING_FLYWAY_URL
               value: jdbc:postgresql://bookshop-postgres/bookshopdb_order
             - name: SPRING_CLOUD_CONFIG_URI
               value: http://config-service
