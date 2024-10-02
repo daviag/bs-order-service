@@ -24,6 +24,11 @@ spring:
     url: jdbc:postgresql://localhost:5432/bsdb_order
   config:
     import: "optional:configserver:"
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/Bookshop
   cloud:
     config:
       uri: http://localhost:8888
