@@ -75,6 +75,10 @@ management:
     tags:
       application: ${spring.application.name}
 
+logging:
+  pattern:
+    level: "%5p [${spring.application.name}, %X{trace_id}, %X{span_id}]"
+
 bs:
   catalog-service-uri: "http://localhost:9001"
 

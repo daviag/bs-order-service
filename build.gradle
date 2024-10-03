@@ -28,6 +28,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
+	runtimeOnly 'io.opentelemetry.javaagent:opentelemetry-javaagent:1.33.3'
 
 	runtimeOnly 'org.postgresql:r2dbc-postgresql'
 	// for flyway to work
