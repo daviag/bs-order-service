@@ -60,5 +60,18 @@ spring:
         producer:
           transacted: true
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: always
+      show-components: always
+      probes:
+        enabled: true
+
 bs:
   catalog-service-uri: "http://localhost:9001"
+

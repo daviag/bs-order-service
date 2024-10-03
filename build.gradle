@@ -26,6 +26,7 @@ dependencies {
 	implementation 'org.springframework.retry:spring-retry'
 	implementation 'org.springframework.cloud:spring-cloud-stream-binder-rabbit'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
 	runtimeOnly 'org.postgresql:r2dbc-postgresql'
 	// for flyway to work

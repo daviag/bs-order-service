@@ -16,6 +16,7 @@ public class SecurityConfig {
     SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity serverHttpSecurity) {
         return serverHttpSecurity
                 .authorizeExchange(authorizeExchangeSpec -> authorizeExchangeSpec
+                        .pathMatchers("/actuator/**").permitAll()
                         .anyExchange().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
                 .requestCache(cache -> cache.requestCache(NoOpServerRequestCache.getInstance()))
