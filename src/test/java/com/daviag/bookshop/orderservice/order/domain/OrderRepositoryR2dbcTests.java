@@ -12,39 +12,36 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
-import org.testcontainers.utility.TestcontainersConfiguration;
 import reactor.test.StepVerifier;
 
 import java.util.Objects;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 @DataR2dbcTest
-@Import({DataConfig.class, TestcontainersConfiguration.class})
+@Import(DataConfig.class)
 @Testcontainers
 public class OrderRepositoryR2dbcTests {
 
-//    @Container
-//    static PostgreSQLContainer<?> postgresql =
-//            new PostgreSQLContainer<>(DockerImageName.parse("postgres:16-alpine"));
+    @Container
+    static PostgreSQLContainer<?> postgresql =
+            new PostgreSQLContainer<>(DockerImageName.parse("postgres:16-alpine"));
+
+    @DynamicPropertySource
+    static void postgresqlProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.r2dbc.url", OrderRepositoryR2dbcTests::r2dbcUrl);
+        registry.add("spring.r2dbc.username", postgresql::getUsername);
+        registry.add("spring.r2dbc.password", postgresql::getPassword);
+        registry.add("spring.flyway.url", postgresql::getJdbcUrl);
+    }
+
+    private static String r2dbcUrl() {
+        return String.format("r2dbc:postgresql://%s:%s/%s",
+                postgresql.getHost(),
+                postgresql.getMappedPort(PostgreSQLContainer.POSTGRESQL_PORT),
+                postgresql.getDatabaseName());
+    }
 
     @Autowired
     private OrderRepository orderRepository;
-
-//    @DynamicPropertySource
-//    static void postgresqlProperties(DynamicPropertyRegistry registry) {
-//        registry.add("spring.r2dbc.url", OrderRepositoryR2dbcTests::r2dbcUrl);
-//        registry.add("spring.r2dbc.username", postgresql::getUsername);
-//        registry.add("spring.r2dbc.password", postgresql::getPassword);
-//        registry.add("spring.flyway.url", postgresql::getJdbcUrl);
-//    }
-//
-//    private static String r2dbcUrl() {
-//        return String.format("r2dbc:postgresql://%s:%s/%s",
-//                postgresql.getHost(),
-//                postgresql.getMappedPort(PostgreSQLContainer.POSTGRESQL_PORT),
-//                postgresql.getDatabaseName());
-//    }
 
     @Test
     void findOrderByIdWhenNotExisting() {
