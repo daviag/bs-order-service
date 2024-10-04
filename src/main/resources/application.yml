@@ -23,7 +23,7 @@ spring:
     password: ${spring.r2dbc.password}
     url: jdbc:postgresql://localhost:5432/bsdb_order
   config:
-    import: "optional:configserver:"
+    import: ""
   security:
     oauth2:
       resourceserver:
@@ -31,6 +31,7 @@ spring:
           issuer-uri: http://localhost:8080/realms/Bookshop
   cloud:
     config:
+      enabled: false
       uri: http://localhost:8888
       request-connect-timeout: 5000 # 5s
       request-read-timeout: 5000 # 5s
